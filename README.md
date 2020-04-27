@@ -1,2 +1,2 @@
-## Aritificial Bee Colony Implementatin
+## Artificial Bee Colony Implementatin
 Run `main.py`  
