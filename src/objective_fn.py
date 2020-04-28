@@ -11,3 +11,6 @@ class objective_fn:
 
     def graph_fn(self):
         pass
+
+    def is_defined_only_for_2d(self):
+        pass
