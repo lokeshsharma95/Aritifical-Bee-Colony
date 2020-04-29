@@ -2,6 +2,7 @@ from src import objective_fn
 import math
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib import cm
 
 
 class sphere_fn(objective_fn):
@@ -49,7 +50,7 @@ class sphere_fn(objective_fn):
         X = np.linspace(self.domain[0], self.domain[1], 200)
         Y = np.linspace(self.domain[0], self.domain[1], 200)
         X, Y = np.meshgrid(X, Y)
-        Z = X ** 2 + Y ** 2
+        Z = X**2 + Y**2
 
         plt.contour(X, Y, Z)
         for point in points:
