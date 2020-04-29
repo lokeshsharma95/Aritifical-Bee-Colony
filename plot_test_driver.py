@@ -9,7 +9,6 @@ import math
 def plots_gen(fn, img_name, points):
     # fn.graph_fn()
     fn.contour_plot(img_name, points)
-    pass
 
 
 plots_gen(rastrigin_fn(2), 'rastrigin.png', [(0, 0), (1, 1), (2, 1)])
