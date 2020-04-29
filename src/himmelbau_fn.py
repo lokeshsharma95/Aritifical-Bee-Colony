@@ -1,4 +1,4 @@
-from src import objective_fn
+from src.objective_fn import objective_fn
 import math
 import numpy as np
 import matplotlib.pyplot as plt
@@ -50,15 +50,18 @@ class himmelbau_fn(objective_fn):
     def contour_plot(self, save_file_name, points):
         # X = np.linspace(-10, 10, 100)
         # Y = np.linspace(-10, 10, 100)
-        X = np.linspace(self.domain[0], self.domain[1], 200)
-        Y = np.linspace(self.domain[0], self.domain[1], 200)
+        # X = np.linspace(-5, 5, 200)
+        # Y = np.linspace(-5, 5, 200)
+        X = np.linspace(self.domain[0], self.domain[1], 100)
+        Y = np.linspace(self.domain[0], self.domain[1], 100)
         X, Y = np.meshgrid(X, Y)
         Z = (X**2 + Y - 11)**2 + (X + Y**2 - 7)**2
 
         plt.contour(X, Y, Z)
         for point in points:
             plt.scatter(point[0], point[1], marker='X', color='red')
-        plt.savefig(save_file_name, dpi=300)
+        plt.savefig(save_file_name, dpi=300, bbox_inches='tight')
+        plt.close()
 
 
     def is_defined_only_for_2d(self):

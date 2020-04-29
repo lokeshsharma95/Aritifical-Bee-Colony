@@ -1,11 +1,9 @@
-from src import objective_fn
+from src.objective_fn import objective_fn
 import math
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import cm
-
-
-# from mpl_toolkits.mplot3d import Axes3D
+from mpl_toolkits.mplot3d import Axes3D
 
 
 class rastrigin_fn(objective_fn):
@@ -58,16 +56,20 @@ class rastrigin_fn(objective_fn):
 
     def contour_plot(self, save_file_name, points):
         A = 10
-        X = np.linspace(-5.12, 5.12, 200)
-        Y = np.linspace(-5.12, 5.12, 200)
+        # X = np.linspace(-5.12, 5.12, 200)
+        # Y = np.linspace(-5.12, 5.12, 200)
+        X = np.linspace(self.domain[0], self.domain[1], 200)
+        Y = np.linspace(self.domain[0], self.domain[1], 200)
 
         X, Y = np.meshgrid(X, Y)
 
         Z = self.eval_vectors(X, Y, A=10)
         plt.contour(X, Y, Z)
         for point in points:
-            plt.scatter(point[0], point[1], marker='X', color='red')
-        plt.savefig(save_file_name, dpi=300)
+            # print(point)
+            plt.scatter(point[0], point[1], marker='X', color='r')
+        plt.savefig(save_file_name, dpi=300, bbox_inches='tight')
+        plt.close()
 
 
     def is_defined_only_for_2d(self):
