@@ -8,7 +8,7 @@ import random as rand
 
 class ABC:
     def __init__(self, population, fitness_function, employed_bee_percentage=0.5, runs=20, lower_bound=[-10, -10],
-                 upper_bound=[10, 10], rounding_factor=2):
+                 upper_bound=[10, 10], rounding_factor=2, trials_allowed=5):
         assert len(lower_bound) == len(upper_bound)
         self.population = population
         self.fitness_function = fitness_function
@@ -21,22 +21,27 @@ class ABC:
         self.employed_bees = round(population * employed_bee_percentage)
         self.onlooker_bees = population - self.employed_bees
         self.food_source_fitness_mapping = OrderedDict()
+        self.trials_allowed = trials_allowed
+        self.best_food_source = None
 
     def get_initial_food_source(self):
         initial_food_source = set()
         while len(initial_food_source) < self.employed_bees:
-            value = np.random.uniform(self.lower_bound, self.upper_bound).round(decimals=self.rounding_factor)
-            initial_food_source.add(FoodSource(value))
+            source = self.create_food_source()
+            initial_food_source.add(source)
         return initial_food_source
+
+    def create_food_source(self):
+        value = np.random.uniform(self.lower_bound, self.upper_bound).round(decimals=self.rounding_factor)
+        source = FoodSource(value)
+        return source
 
     def run(self):
         self.initialise_employee_bee()
         for i in range(self.runs):
             self.send_onlooker_bees()
             self.send_scout_bees()
-            print(self.food_source_fitness_mapping)
-        food_source = self.get_best_source()
-        return food_source.value
+        return self.best_food_source.value
 
     def initialise_employee_bee(self):
         food_sources = self.get_initial_food_source()
@@ -55,7 +60,24 @@ class ABC:
             self.get_best_solution(selected_source, new_source)
 
     def send_scout_bees(self):
-        pass
+        self.best_food_source = self.get_best_source()
+        removed_count = 0
+        added_count = 0
+        food_source_to_pop = []
+        for food_source in self.food_source_fitness_mapping:
+            if food_source.trials > self.trials_allowed:
+                food_source_to_pop.append(food_source)
+                removed_count += 1
+
+        for food_source in food_source_to_pop:
+            self.food_source_fitness_mapping.pop(food_source)
+
+        while added_count < removed_count:
+            new_food_source = self.create_food_source()
+            if new_food_source not in self.food_source_fitness_mapping:
+                self.food_source_fitness_mapping[new_food_source] = self.fitness_function.evaluate(
+                    new_food_source.value)
+                added_count += 1
 
     def get_best_source(self):
         return max(self.food_source_fitness_mapping.items(), key=operator.itemgetter(1))[0]
