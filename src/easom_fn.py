@@ -1,5 +1,8 @@
 from src import objective_fn
 import math
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib import cm
 
 
 class easom_fn(objective_fn):
@@ -10,7 +13,7 @@ class easom_fn(objective_fn):
 
 
     def get_minima(self):
-        minima_coords = [0 for i in range(self.dims)]     # minima val is -1
+        minima_coords = [math.pi for i in range(self.dims)]     # minima val is -1
         minima = tuple(minima_coords)
         return self.eval_fn(minima)
 
@@ -32,7 +35,31 @@ class easom_fn(objective_fn):
 
 
     def graph_fn(self):
-        pass
+        X = np.linspace(self.domain[0], self.domain[1], 200)
+        Y = np.linspace(self.domain[0], self.domain[1], 200)
+        # X = np.linspace(-10, 10, 100)
+        # Y = np.linspace(-10, 10, 100)
+        X, Y = np.meshgrid(X, Y)
+        Z = -1 * np.cos(X) * np.cos(Y) * np.exp(-1 * ((X - math.pi)**2 + (Y - math.pi)**2))
+
+        fig = plt.figure()
+        ax = fig.gca(projection='3d')
+        ax.plot_surface(X, Y, Z, rstride=1, cstride=1, cmap=cm.plasma, linewidth=0, antialiased=False)
+        plt.savefig('easom.png')
+
+
+    def contour_plot(self, save_file_name, points):
+        # X = np.linspace(-10, 10, 100)
+        # Y = np.linspace(-10, 10, 100)
+        X = np.linspace(self.domain[0], self.domain[1], 200)
+        Y = np.linspace(self.domain[0], self.domain[1], 200)
+        X, Y = np.meshgrid(X, Y)
+        Z = -1 * np.cos(X) * np.cos(Y) * np.exp(-1 * ((X - math.pi) ** 2 + (Y - math.pi) ** 2))
+
+        plt.contour(X, Y, Z)
+        for point in points:
+            plt.scatter(point[0], point[1], marker='X', color='red')
+        plt.savefig(save_file_name, dpi=300)
 
 
     def is_defined_only_for_2d(self):
