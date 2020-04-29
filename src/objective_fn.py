@@ -12,5 +12,8 @@ class objective_fn:
     def graph_fn(self):
         pass
 
+    def contour_plot(self, points):
+        pass
+
     def is_defined_only_for_2d(self):
         pass
