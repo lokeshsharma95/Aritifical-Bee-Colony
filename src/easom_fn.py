@@ -4,14 +4,15 @@ import math
 
 class easom_fn(objective_fn):
 
-    def __init__(self, dims):
-        super(easom_fn, self).__init__(dims)
+    def __init__(self):
+        super(easom_fn, self).__init__(2)
         self.domain = (-100, 100)
 
 
     def get_minima(self):
-        minima_2d_coords = (math.pi, math.pi) # minima val is -1
-        return self.eval_fn(minima_2d_coords)
+        minima_coords = [0 for i in range(self.dims)]     # minima val is -1
+        minima = tuple(minima_coords)
+        return self.eval_fn(minima)
 
 
     def eval_fn(self, params):

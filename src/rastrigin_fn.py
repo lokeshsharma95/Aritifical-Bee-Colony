@@ -15,8 +15,9 @@ class rastrigin_fn(objective_fn):
         self.domain = (-5.12, 5.12)
 
     def get_minima(self):
-        minima_2d_coords = (0, 0)  # Function value is 0 here.
-        return self.eval_fn(minima_2d_coords)
+        minima_coords = [0 for i in range(self.dims)]   # Function value is 0 here.
+        minima = tuple(minima_coords)
+        return self.eval_fn(minima)
 
     def eval_fn(self, params):
         A = 10
