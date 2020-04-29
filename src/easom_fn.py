@@ -30,7 +30,7 @@ class easom_fn(objective_fn):
             print('Exception in easom_fn.eval: '. repr(error))
 
 
-    def graph_fn(self, params):
+    def graph_fn(self):
         pass
 
 
