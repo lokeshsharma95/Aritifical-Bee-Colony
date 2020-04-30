@@ -1,29 +1,26 @@
-from src.objective_fn import objective_fn
+from src.functions.objectivefn import ObjectiveFn
 import math
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import cm
-from mpl_toolkits.mplot3d import Axes3D
 
 
-class rastrigin_fn(objective_fn):
+class RastriginFn(ObjectiveFn):
 
     def __init__(self, dims):
-        super(rastrigin_fn, self).__init__(dims)
+        super(RastriginFn, self).__init__(dims)
         self.domain = (-5.12, 5.12)
 
-
     def get_minima(self):
-        minima_coords = [0 for i in range(self.dims)]   # Function value is 0 here.
+        minima_coords = [0 for i in range(self.dims)]  # Function value is 0 here.
         minima = tuple(minima_coords)
-        return self.eval_fn(minima)
+        return self.evaluate(minima)
 
-
-    def eval_fn(self, params):
+    def evaluate(self, params):
         A = 10
         f = 0
         try:
-            if (len(params) != self.dims):
+            if len(params) != self.dims:
                 raise Exception('number of paramters passd is not the same as the number of expected dimensions')
 
             for param in params:
@@ -33,11 +30,9 @@ class rastrigin_fn(objective_fn):
         except Exception as error:
             print('Exception raised in rastrigin_fn.eval_fn: ', repr(error))
 
-
     def eval_vectors(self, *X, **kwargs):
         A = kwargs.get('A', 10)
         return A + sum([(x ** 2 - A * np.cos(2 * math.pi * x)) for x in X])
-
 
     def graph_fn(self):
         A = 10
@@ -52,7 +47,6 @@ class rastrigin_fn(objective_fn):
         ax = fig.gca(projection='3d')
         ax.plot_surface(X, Y, Z, rstride=1, cstride=1, cmap=cm.plasma, linewidth=0, antialiased=False)
         plt.savefig('rastrigin.png')
-
 
     def contour_plot(self, save_file_name, points):
         A = 10
@@ -71,6 +65,8 @@ class rastrigin_fn(objective_fn):
         plt.savefig(save_file_name, dpi=300, bbox_inches='tight')
         plt.close()
 
-
     def is_defined_only_for_2d(self):
         return False
+
+    def name(self):
+        return "rastrigin"

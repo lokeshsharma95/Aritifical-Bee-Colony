@@ -1,4 +1,4 @@
-class objective_fn:
+class ObjectiveFn:
 
     def __init__(self, dims):
         self.dims = dims
@@ -6,7 +6,7 @@ class objective_fn:
     def get_minima(self):
         pass
 
-    def eval_fn(self, params):
+    def evaluate(self, params):
         pass
 
     def graph_fn(self):
@@ -16,4 +16,7 @@ class objective_fn:
         pass
 
     def is_defined_only_for_2d(self):
+        pass
+
+    def name(self):
         pass
